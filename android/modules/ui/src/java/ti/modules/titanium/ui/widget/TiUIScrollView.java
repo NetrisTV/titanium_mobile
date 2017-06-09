@@ -402,7 +402,12 @@ public class TiUIScrollView extends TiUIView
 		public boolean onInterceptTouchEvent(MotionEvent event)
 		{
 			if (mScrollingEnabled) {
-				return super.onInterceptTouchEvent(event);
+				// There is an Android bug that will throw an exception sometimes when we try to pinch the scrollview.
+				try {
+					return super.onInterceptTouchEvent(event);
+				} catch (Exception exception) {
+					return false;
+				}
 			}
 
 			return false;
@@ -554,7 +559,12 @@ public class TiUIScrollView extends TiUIView
 		public boolean onInterceptTouchEvent(MotionEvent event)
 		{
 			if (mScrollingEnabled) {
-				return super.onInterceptTouchEvent(event);
+				// There is an Android bug that will throw an exception sometimes when we try to pinch the scrollview.
+				try {
+					return super.onInterceptTouchEvent(event);
+				} catch (Exception exception) {
+					return false;
+				}
 			}
 
 			return false;
