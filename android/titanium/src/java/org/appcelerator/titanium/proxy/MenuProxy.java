@@ -290,8 +290,12 @@ public class MenuProxy extends KrollProxy
 			menu.close();
 			menu = null;
 		}
-		//TODO walk the items and release the natives
-		menuMap.clear();
+		if (menuMap != null) {
+			for (MenuItemProxy p : menuMap.values()) {
+				p.release();
+			}
+			menuMap = null;
+		}
 	}
 
 	@Override
