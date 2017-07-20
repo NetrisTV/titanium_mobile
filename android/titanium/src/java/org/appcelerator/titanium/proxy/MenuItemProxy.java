@@ -32,6 +32,8 @@ public class MenuItemProxy extends KrollProxy
 
 	private MenuItem item;
 
+	TiViewProxy actionViewProxy;
+
 	private static final int MSG_FIRST_ID = KrollProxy.MSG_LAST_ID + 1;
 	protected static final int MSG_LAST_ID = MSG_FIRST_ID + 1000;
 
@@ -237,7 +239,8 @@ public class MenuItemProxy extends KrollProxy
 	// clang-format on
 	{
 		if (view instanceof TiViewProxy) {
-			final View v = ((TiViewProxy) view).getOrCreateView().getNativeView();
+			actionViewProxy = (TiViewProxy) view;
+			final View v = actionViewProxy.getOrCreateView().getNativeView();
 			TiMessenger.postOnMain(new Runnable() {
 				@Override
 				public void run()
@@ -302,5 +305,31 @@ public class MenuItemProxy extends KrollProxy
 	public String getApiName()
 	{
 		return "Ti.Android.MenuItem";
+	}
+
+	@Override
+	public void release()
+	{
+		if (actionViewProxy != null) {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+				TiMessenger.postOnMain(new Runnable() {
+					public void run()
+					{
+						item.setActionView(null);
+					}
+				});
+
+			} else {
+				TiMessenger.postOnMain(new Runnable() {
+					public void run()
+					{
+						MenuItemCompat.setActionView(item, null);
+					}
+				});
+			}
+			actionViewProxy.releaseViews();
+			actionViewProxy = null;
+		}
+		super.release();
 	}
 }
