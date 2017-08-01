@@ -14,7 +14,7 @@
 #include "JNIUtil.h"
 
 #define THROW(isolate, msg) \
-	isolate->ThrowException(v8::String::NewFromUtf8(isolate, msg))
+	isolate->ThrowException(v8::Exception::Error(v8::String::NewFromUtf8(isolate, msg)))
 
 namespace titanium {
 
