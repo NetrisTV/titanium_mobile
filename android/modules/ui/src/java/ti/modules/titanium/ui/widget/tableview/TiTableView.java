@@ -531,6 +531,10 @@ public class TiTableView extends TiSwipeRefreshLayout implements OnSearchChangeL
 	{
 		String viewClicked = rowView.getLastClickedViewName();
 		Item item = getItemAtPosition(position);
+		if (item == null) {
+			Log.w(TAG, "rowClicked. Item at [" + position + "] == null");
+			return false;
+		}
 		KrollDict event = new KrollDict();
 		String eventName = longClick ? TiC.EVENT_LONGCLICK : TiC.EVENT_CLICK;
 		TableViewRowProxy.fillClickEvent(event, viewModel, item);
