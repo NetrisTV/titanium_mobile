@@ -23,6 +23,7 @@ import android.os.Build;
 
 @Kroll.proxy(creatableInModule = NetworkModule.class,
 	propertyAccessors = {
+		TiC.PROPERTY_CACHE,
 		TiC.PROPERTY_FILE,
 		TiC.PROPERTY_ONSENDSTREAM,
 		TiC.PROPERTY_ONLOAD,
@@ -51,6 +52,7 @@ public class HTTPClientProxy extends KrollProxy
 	public HTTPClientProxy()
 	{
 		super();
+		defaultValues.put(TiC.PROPERTY_CACHE, false);
 		this.client = new TiHTTPClient(this);
 	}
 
