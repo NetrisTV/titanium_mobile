@@ -26,7 +26,7 @@ public class NotificationProxy extends TiViewProxy
 	@Override
 	public TiUIView createView(Activity activity)
 	{
-		return new TiUINotification(this);
+		return new TiUINotification(this, activity);
 	}
 
 	@Override

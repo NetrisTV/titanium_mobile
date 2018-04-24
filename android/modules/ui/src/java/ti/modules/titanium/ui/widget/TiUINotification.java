@@ -6,6 +6,7 @@
  */
 package ti.modules.titanium.ui.widget;
 
+import android.app.Activity;
 import org.appcelerator.kroll.KrollDict;
 import org.appcelerator.kroll.KrollProxy;
 import org.appcelerator.kroll.common.Log;
@@ -22,11 +23,11 @@ public class TiUINotification extends TiUIView
 
 	private Toast toast;
 
-	public TiUINotification(TiViewProxy proxy)
+	public TiUINotification(TiViewProxy proxy, Activity activity)
 	{
 		super(proxy);
 		Log.d(TAG, "Creating a notifier", Log.DEBUG_MODE);
-		toast = Toast.makeText(proxy.getActivity(), "", Toast.LENGTH_SHORT);
+		toast = Toast.makeText(activity, "", Toast.LENGTH_SHORT);
 	}
 
 	@Override
