@@ -37,7 +37,7 @@ public class SearchViewProxy extends TiViewProxy
 	@Override
 	public TiUIView createView(Activity activity)
 	{
-		return new TiUISearchView(this);
+		return new TiUISearchView(this, activity);
 	}
 
 	@Override

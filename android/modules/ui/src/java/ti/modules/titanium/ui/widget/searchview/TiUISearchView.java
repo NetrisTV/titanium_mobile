@@ -19,6 +19,7 @@ import org.appcelerator.titanium.util.TiRHelper.ResourceNotFoundException;
 import org.appcelerator.titanium.view.TiUIView;
 
 import ti.modules.titanium.ui.widget.searchbar.TiUISearchBar.OnSearchChangeListener;
+import android.app.Activity;
 import android.support.v7.widget.SearchView;
 import android.widget.EditText;
 
@@ -32,11 +33,11 @@ public class TiUISearchView extends TiUIView implements SearchView.OnQueryTextLi
 
 	protected OnSearchChangeListener searchChangeListener;
 
-	public TiUISearchView(TiViewProxy proxy)
+	public TiUISearchView(TiViewProxy proxy, Activity activity)
 	{
 		super(proxy);
 
-		searchView = new SearchView(proxy.getActivity());
+		searchView = new SearchView(activity);
 		searchView.setOnQueryTextListener(this);
 		searchView.setOnCloseListener(this);
 		searchView.setOnQueryTextFocusChangeListener(this);
