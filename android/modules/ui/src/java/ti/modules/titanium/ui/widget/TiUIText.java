@@ -79,8 +79,18 @@ public class TiUIText extends TiUIView implements TextWatcher, OnEditorActionLis
 		this.field = field;
 
 		int tvId;
+
+		final String resourcePath = "layout.titanium_ui_edittext";
+		String path = null;
+
+		if (proxy.hasPropertyAndNotNull(TiC.PROPERTY_PATH)) {
+			path = TiConvert.toString(proxy.getProperty(TiC.PROPERTY_PATH));
+		}
+		if (path == null || path.isEmpty()) {
+			path = resourcePath;
+		}
 		try {
-			tvId = TiRHelper.getResource("layout.titanium_ui_edittext");
+			tvId = TiRHelper.getResource(path);
 		} catch (ResourceNotFoundException e) {
 			if (Log.isDebugModeEnabled()) {
 				Log.e(TAG, "XML resources could not be found!!!");
