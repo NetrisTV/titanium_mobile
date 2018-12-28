@@ -193,6 +193,12 @@ properties:
         Support for using <Titanium.Blob> for this property is only available on Android and iOS.
     type: [String, Titanium.Blob]
 
+  - name: maxLines
+    summary: Makes the button title at most this many lines tall.
+    platforms: [android]
+    type: Number
+    since: {android: "7.4.1"}
+
   - name: selectedColor
     summary: Button text color used to indicate the selected state, as a color name or hex triplet.
     description: |
