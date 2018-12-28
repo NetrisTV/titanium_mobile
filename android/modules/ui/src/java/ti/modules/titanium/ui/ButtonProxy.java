@@ -24,6 +24,7 @@ import android.app.Activity;
 		TiC.PROPERTY_ENABLED,
 		TiC.PROPERTY_FONT,
 		TiC.PROPERTY_IMAGE,
+		TiC.PROPERTY_MAX_LINES,
 		TiC.PROPERTY_TEXT_ALIGN,
 		TiC.PROPERTY_VERTICAL_ALIGN,
 		TiC.PROPERTY_SHADOW_OFFSET,
@@ -36,6 +37,7 @@ public class ButtonProxy extends TiViewProxy
 {
 	public ButtonProxy()
 	{
+		defaultValues.put(TiC.PROPERTY_MAX_LINES, 1);
 		defaultValues.put(TiC.PROPERTY_TITLE, "");
 		defaultValues.put(TiC.PROPERTY_SHADOW_RADIUS, 1f);
 	}

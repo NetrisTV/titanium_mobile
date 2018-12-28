@@ -57,7 +57,6 @@ public class TiUIButton extends TiUIView
 		btn.setGravity(Gravity.CENTER);
 		defaultColor = btn.getCurrentTextColor();
 		btn.setEllipsize(TextUtils.TruncateAt.MIDDLE);
-		btn.setMaxLines(1);
 		setNativeView(btn);
 	}
 
@@ -111,6 +110,10 @@ public class TiUIButton extends TiUIView
 			String textAlign = d.getString(TiC.PROPERTY_TEXT_ALIGN);
 			TiUIHelper.setAlignment(btn, textAlign, null);
 		}
+		if (d.containsKey(TiC.PROPERTY_MAX_LINES)) {
+			int maxLines = d.getInt(TiC.PROPERTY_MAX_LINES);
+			btn.setMaxLines(maxLines);
+		}
 		if (d.containsKey(TiC.PROPERTY_VERTICAL_ALIGN)) {
 			String verticalAlign = d.getString(TiC.PROPERTY_VERTICAL_ALIGN);
 			TiUIHelper.setAlignment(btn, null, verticalAlign);
@@ -161,6 +164,8 @@ public class TiUIButton extends TiUIView
 			btn.setTextColor(TiConvert.toColor(TiConvert.toString(newValue)));
 		} else if (key.equals(TiC.PROPERTY_FONT)) {
 			TiUIHelper.styleText(btn, (HashMap) newValue);
+		} else if (key.equals(TiC.PROPERTY_MAX_LINES)) {
+			btn.setMaxLines(TiConvert.toInt(newValue));
 		} else if (key.equals(TiC.PROPERTY_TEXT_ALIGN)) {
 			TiUIHelper.setAlignment(btn, TiConvert.toString(newValue), null);
 			btn.requestLayout();
