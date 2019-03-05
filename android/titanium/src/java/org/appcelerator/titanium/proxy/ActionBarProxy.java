@@ -141,6 +141,16 @@ public class ActionBarProxy extends KrollProxy
 		}
 	}
 
+	@Kroll.method
+	public void setHomeActionContentDescription(String value)
+	{
+		if (actionBar == null) {
+			return;
+		}
+
+		actionBar.setHomeActionContentDescription(value);
+	}
+
 	// clang-format off
 	@Kroll.method
 	@Kroll.getProperty
