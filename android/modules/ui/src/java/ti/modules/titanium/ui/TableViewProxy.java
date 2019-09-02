@@ -132,6 +132,18 @@ public class TableViewProxy extends TiViewProxy
 				section.releaseViews();
 			}
 		}
+		if (this.hasProperty(TiC.PROPERTY_HEADER_VIEW)) {
+			TiViewProxy view = (TiViewProxy) this.getProperty(TiC.PROPERTY_HEADER_VIEW);
+			if (view != null) {
+				view.releaseViews();
+			}
+		}
+		if (this.hasProperty(TiC.PROPERTY_FOOTER_VIEW)) {
+			TiViewProxy view = (TiViewProxy) this.getProperty(TiC.PROPERTY_FOOTER_VIEW);
+			if (view != null) {
+				view.releaseViews();
+			}
+		}
 	}
 
 	@Override

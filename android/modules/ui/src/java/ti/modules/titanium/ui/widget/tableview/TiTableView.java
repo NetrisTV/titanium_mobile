@@ -415,6 +415,9 @@ public class TiTableView extends TiSwipeRefreshLayout implements OnSearchChangeL
 
 	public void removeHeaderView(TiViewProxy viewProxy)
 	{
+		if (viewProxy == null) {
+			return;
+		}
 		TiUIView peekView = viewProxy.peekView();
 		View outerView = (peekView == null) ? null : peekView.getOuterView();
 		if (outerView != null) {
@@ -434,6 +437,9 @@ public class TiTableView extends TiSwipeRefreshLayout implements OnSearchChangeL
 
 	public void removeFooterView(TiViewProxy viewProxy)
 	{
+		if (viewProxy == null) {
+			return;
+		}
 		TiUIView peekView = viewProxy.peekView();
 		View outerView = (peekView == null) ? null : peekView.getOuterView();
 		if (outerView != null) {
