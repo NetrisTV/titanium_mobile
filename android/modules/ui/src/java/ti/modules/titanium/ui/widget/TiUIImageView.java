@@ -98,6 +98,9 @@ public class TiUIImageView extends TiUIView implements OnLifecycleEvent, Handler
 			@Override
 			public void downloadTaskFinished(URI uri)
 			{
+				if (imageViewProxy == null) {
+					return;
+				}
 				if (!TiResponseCache.peek(uri)) {
 					// The requested image did not make it into our TiResponseCache,
 					// possibly because it had a header forbidding that. Now get it
@@ -118,6 +121,9 @@ public class TiUIImageView extends TiUIView implements OnLifecycleEvent, Handler
 			@Override
 			public void postDownload(URI uri)
 			{
+				if (imageViewProxy == null) {
+					return;
+				}
 				if (TiResponseCache.peekFollowingRedirects(uri)) {
 					handleCacheAndSetImage(TiDrawableReference.fromUrl(imageViewProxy, uri.toString()));
 				}
@@ -137,7 +143,7 @@ public class TiUIImageView extends TiUIView implements OnLifecycleEvent, Handler
 					// Update UI if the current image source has not been changed.
 					if (imageSources != null && imageSources.size() == 1) {
 						TiDrawableReference imgsrc = imageSources.get(0);
-						if (imgsrc == null) {
+						if (imgsrc == null || imageViewProxy == null) {
 							return;
 						}
 						if (imgsrc.hashCode() == hash
@@ -231,6 +237,9 @@ public class TiUIImageView extends TiUIView implements OnLifecycleEvent, Handler
 		if (imageSources != null && imageSources.size() == 1) {
 			TiDrawableReference imgsrc = imageSources.get(0);
 			if (imgsrc == null || imgsrc.getUrl() == null) {
+				return;
+			}
+			if (imageViewProxy == null) {
 				return;
 			}
 			if (imageref.equals(imgsrc)
@@ -1022,6 +1031,7 @@ public class TiUIImageView extends TiUIView implements OnLifecycleEvent, Handler
 			timer = null;
 		}
 		defaultImageSource = null;
+		imageViewProxy = null;
 
 		super.release();
 	}
