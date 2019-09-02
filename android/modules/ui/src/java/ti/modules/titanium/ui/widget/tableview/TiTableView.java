@@ -428,6 +428,10 @@ public class TiTableView extends TiSwipeRefreshLayout implements OnSearchChangeL
 	public void setHeaderView()
 	{
 		if (proxy.hasPropertyAndNotNull(TiC.PROPERTY_HEADER_VIEW)) {
+			if (listView.getHeaderViewsCount() != 0) {
+				Log.w(TAG, "header view already exists");
+				return;
+			}
 			listView.setAdapter(null);
 			TiViewProxy view = (TiViewProxy) proxy.getProperty(TiC.PROPERTY_HEADER_VIEW);
 			listView.addHeaderView(layoutTableHeaderOrFooter(view), null, false);
@@ -450,6 +454,10 @@ public class TiTableView extends TiSwipeRefreshLayout implements OnSearchChangeL
 	public void setFooterView()
 	{
 		if (proxy.hasPropertyAndNotNull(TiC.PROPERTY_FOOTER_VIEW)) {
+			if (listView.getFooterViewsCount() != 0) {
+				Log.w(TAG, "footer view already exists");
+				return;
+			}
 			listView.setAdapter(null);
 			TiViewProxy view = (TiViewProxy) proxy.getProperty(TiC.PROPERTY_FOOTER_VIEW);
 			listView.addFooterView(layoutTableHeaderOrFooter(view), null, false);
