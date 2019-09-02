@@ -255,12 +255,14 @@ public class TiTableViewRowProxyItem extends TiBaseTableViewItem
 
 			for (int i = 0; i < len; i++) {
 				TiViewProxy proxy = proxies.get(i);
-				TiBaseTableViewItem.clearChildViews(proxy);
-				TiUIView view = proxy.forceCreateView();
-				views.add(view);
-				View v = view.getOuterView();
-				if (v.getParent() == null) {
-					content.addView(v, view.getLayoutParams());
+				if (proxy.getActivity() != null) {
+					TiBaseTableViewItem.clearChildViews(proxy);
+					TiUIView view = proxy.forceCreateView();
+					views.add(view);
+					View v = view.getOuterView();
+					if (v.getParent() == null) {
+						content.addView(v, view.getLayoutParams());
+					}
 				}
 			}
 		} else {
