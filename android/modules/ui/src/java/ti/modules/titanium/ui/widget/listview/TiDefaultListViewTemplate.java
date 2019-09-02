@@ -21,6 +21,10 @@ import android.app.Activity;
 
 public class TiDefaultListViewTemplate extends TiListViewTemplate
 {
+	LabelProxy labelProxy;
+	ImageViewProxy imageProxy;
+	DataItem labelItem;
+	DataItem imageItem;
 
 	public TiDefaultListViewTemplate(String id, KrollDict properties, Activity activity)
 	{
@@ -42,7 +46,7 @@ public class TiDefaultListViewTemplate extends TiListViewTemplate
 		KrollDict defaultImageProperties = new KrollDict();
 
 		//Generate label proxy
-		LabelProxy labelProxy = new LabelProxy();
+		labelProxy = new LabelProxy();
 		labelProxy.getProperties().put(TiC.PROPERTY_TOUCH_ENABLED, false);
 		labelProxy.setActivity(activity);
 		//Generate properties
@@ -52,7 +56,7 @@ public class TiDefaultListViewTemplate extends TiListViewTemplate
 		defaultLabelProperties.put(TiC.PROPERTY_COLOR, "#fff");
 		defaultLabelProperties.put(TiC.PROPERTY_ENABLED, true);
 		//bind the proxy and default propertiess
-		DataItem labelItem = new DataItem(labelProxy, TiC.PROPERTY_TITLE, rootItem);
+		labelItem = new DataItem(labelProxy, TiC.PROPERTY_TITLE, rootItem);
 		dataItems.put(TiC.PROPERTY_TITLE, labelItem);
 		//set default properties
 		labelItem.setDefaultProperties(defaultLabelProperties);
@@ -60,14 +64,14 @@ public class TiDefaultListViewTemplate extends TiListViewTemplate
 		rootItem.addChild(labelItem);
 
 		//Generate image proxy
-		ImageViewProxy imageProxy = new ImageViewProxy();
+		imageProxy = new ImageViewProxy();
 		imageProxy.getProperties().put(TiC.PROPERTY_TOUCH_ENABLED, false);
 		imageProxy.setActivity(activity);
 		//Generate properties
 		defaultImageProperties.put(TiC.PROPERTY_RIGHT, "25dp");
 		defaultImageProperties.put(TiC.PROPERTY_WIDTH, "15%");
 		//bind the proxy and default properties
-		DataItem imageItem = new DataItem(imageProxy, TiC.PROPERTY_IMAGE, rootItem);
+		imageItem = new DataItem(imageProxy, TiC.PROPERTY_IMAGE, rootItem);
 		dataItems.put(TiC.PROPERTY_IMAGE, imageItem);
 		//set default properties
 		imageItem.setDefaultProperties(defaultImageProperties);
@@ -127,5 +131,28 @@ public class TiDefaultListViewTemplate extends TiListViewTemplate
 		}
 		parseDefaultData(data);
 		super.updateOrMergeWithDefaultProperties(data, update);
+	}
+
+	@Override
+	public void release()
+	{
+		Log.d(TAG, "release");
+		if (labelProxy != null) {
+			labelProxy.releaseViews();
+			labelProxy = null;
+		}
+		if (imageProxy != null) {
+			imageProxy.releaseViews();
+			imageProxy = null;
+		}
+		if (imageItem != null) {
+			imageItem.release();
+			imageItem = null;
+		}
+		if (labelItem != null) {
+			labelItem.release();
+			labelItem = null;
+		}
+		super.release();
 	}
 }

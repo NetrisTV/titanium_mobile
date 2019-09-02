@@ -108,10 +108,16 @@ public class TiListViewTemplate
 		public void release()
 		{
 			if (vProxy != null) {
+				vProxy.releaseViews();
 				vProxy.release();
 				vProxy = null;
 			}
-			children.clear();
+			if (children != null) {
+				for (DataItem c : children) {
+					c.release();
+				}
+				children = null;
+			}
 			parent = null;
 		}
 	}
@@ -252,7 +258,7 @@ public class TiListViewTemplate
 	}
 
 	/**
-	 * 
+	 *
 	 * @param data dictionary holding properties for template
 	 * @param update if true update entry else copy non-null values into data parameter
 	 */
@@ -290,8 +296,7 @@ public class TiListViewTemplate
 
 	public void release()
 	{
-		for (int i = 0; i < dataItems.size(); i++) {
-			DataItem item = dataItems.get(i);
+		for (DataItem item : dataItems.values()) {
 			if (item != null) {
 				item.release();
 			}

@@ -1075,30 +1075,33 @@ public class TiListView extends TiUIView implements OnSearchChangeListener
 	public void release()
 	{
 		for (int i = 0; i < sections.size(); i++) {
-			sections.get(i).releaseViews();
+			ListSectionProxy section = sections.get(i);
+			section.releaseViews();
+			section.setAdapter(null);
 		}
-
 		templatesByBinding.clear();
 		sections.clear();
 
 		// If a refresh control is currently assigned, then detach it.
 		RefreshControlProxy.unassignFrom(this.wrapper);
 
-		if (wrapper != null) {
-			wrapper = null;
+		if (headerView != null) {
+			listView.removeHeaderView(headerView);
+			headerView = null;
 		}
-
+		if (footerView != null) {
+			listView.removeFooterView(footerView);
+			footerView = null;
+		}
 		if (listView != null) {
 			listView.setAdapter(null);
 			listView = null;
 		}
-		if (headerView != null) {
-			headerView = null;
+		if (wrapper != null) {
+			wrapper.removeAllViews();
+			wrapper = null;
 		}
-		if (footerView != null) {
-			footerView = null;
-		}
-
+		adapter = null;
 		super.release();
 	}
 
