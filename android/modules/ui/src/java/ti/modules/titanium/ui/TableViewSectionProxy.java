@@ -116,6 +116,7 @@ public class TableViewSectionProxy extends TiViewProxy
 			if (rowProxy.getParent() == this) {
 				rowProxy.setParent(null);
 			}
+			rowProxy.releaseViews();
 		} else {
 			Log.e(TAG, "Index out of range. Unable to remove row at index " + index, Log.DEBUG_MODE);
 		}
@@ -134,6 +135,7 @@ public class TableViewSectionProxy extends TiViewProxy
 			if (oldRow.getParent() == this && !rows.contains(oldRow)) {
 				oldRow.setParent(null);
 			}
+			oldRow.releaseViews();
 		} else {
 			Log.e(TAG, "Index out of range. Unable to update row at index " + index, Log.DEBUG_MODE);
 		}
