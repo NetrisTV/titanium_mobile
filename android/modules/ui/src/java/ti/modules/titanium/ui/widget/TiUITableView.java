@@ -286,6 +286,12 @@ public class TiUITableView
 		RefreshControlProxy.unassignFrom(this.tableView);
 
 		if (tableView != null) {
+			if (proxy.hasProperty(TiC.PROPERTY_HEADER_VIEW)) {
+				tableView.removeHeaderView((TiViewProxy) proxy.getProperty(TiC.PROPERTY_HEADER_VIEW));
+			}
+			if (proxy.hasProperty(TiC.PROPERTY_FOOTER_VIEW)) {
+				tableView.removeFooterView((TiViewProxy) proxy.getProperty(TiC.PROPERTY_FOOTER_VIEW));
+			}
 			tableView.release();
 			tableView = null;
 		}
