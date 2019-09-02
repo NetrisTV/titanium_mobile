@@ -223,7 +223,7 @@ public class TiTableView extends TiSwipeRefreshLayout implements OnSearchChangeL
 
 			// If we haven't created a view container for the given row item, then do so now.
 			if (v == null) {
-				if (item.className.equals(TableViewProxy.CLASSNAME_HEADERVIEW)) {
+				if (item.className.equals(TableViewProxy.CLASSNAME_HEADERVIEW) && item.proxy != null) {
 					TiViewProxy vproxy = item.proxy;
 					TiUIView headerView = layoutSectionHeaderOrFooter(vproxy);
 					v = new TiTableViewHeaderItem(proxy.getActivity(), headerView);
@@ -373,11 +373,15 @@ public class TiTableView extends TiSwipeRefreshLayout implements OnSearchChangeL
 		adapter = new TTVListAdapter(viewModel);
 		if (proxy.hasPropertyAndNotNull(TiC.PROPERTY_HEADER_VIEW)) {
 			TiViewProxy view = (TiViewProxy) proxy.getProperty(TiC.PROPERTY_HEADER_VIEW);
-			listView.addHeaderView(layoutTableHeaderOrFooter(view), null, false);
+			if (view != null) {
+				listView.addHeaderView(layoutTableHeaderOrFooter(view), null, false);
+			}
 		}
 		if (proxy.hasPropertyAndNotNull(TiC.PROPERTY_FOOTER_VIEW)) {
 			TiViewProxy view = (TiViewProxy) proxy.getProperty(TiC.PROPERTY_FOOTER_VIEW);
-			listView.addFooterView(layoutTableHeaderOrFooter(view), null, false);
+			if (view != null) {
+				listView.addFooterView(layoutTableHeaderOrFooter(view), null, false);
+			}
 		}
 
 		listView.setAdapter(adapter);
@@ -434,6 +438,9 @@ public class TiTableView extends TiSwipeRefreshLayout implements OnSearchChangeL
 			}
 			listView.setAdapter(null);
 			TiViewProxy view = (TiViewProxy) proxy.getProperty(TiC.PROPERTY_HEADER_VIEW);
+			if (view == null) {
+				return;
+			}
 			listView.addHeaderView(layoutTableHeaderOrFooter(view), null, false);
 			listView.setAdapter(adapter);
 		}
@@ -460,6 +467,9 @@ public class TiTableView extends TiSwipeRefreshLayout implements OnSearchChangeL
 			}
 			listView.setAdapter(null);
 			TiViewProxy view = (TiViewProxy) proxy.getProperty(TiC.PROPERTY_FOOTER_VIEW);
+			if (view == null) {
+				return;
+			}
 			listView.addFooterView(layoutTableHeaderOrFooter(view), null, false);
 			listView.setAdapter(adapter);
 		}
