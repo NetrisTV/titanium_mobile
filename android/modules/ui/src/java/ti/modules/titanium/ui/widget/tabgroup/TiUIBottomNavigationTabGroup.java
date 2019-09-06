@@ -15,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewParent;
 
+import org.appcelerator.kroll.KrollDict;
+import org.appcelerator.kroll.KrollProxy;
 import org.appcelerator.kroll.common.Log;
 import org.appcelerator.titanium.TiBaseActivity;
 import org.appcelerator.titanium.TiC;
@@ -46,6 +48,31 @@ public class TiUIBottomNavigationTabGroup extends TiUIAbstractTabGroup implement
 	public TiUIBottomNavigationTabGroup(TabGroupProxy proxy, TiBaseActivity activity)
 	{
 		super(proxy, activity);
+	}
+
+	@Override
+	public void processProperties(KrollDict d)
+	{
+		super.processProperties(d);
+		if (d.containsKeyAndNotNull(TiC.PROPERTY_ACTIVE_TAB_ICON_TINT)) {
+			setActiveTabIconTint(TiConvert.toString(d, TiC.PROPERTY_ACTIVE_TAB_ICON_TINT));
+		}
+	}
+
+	@Override
+	public void propertyChanged(String key, Object oldValue, Object newValue, KrollProxy proxy)
+	{
+		if (key.equals(TiC.PROPERTY_ACTIVE_TAB_ICON_TINT)) {
+			setActiveTabIconTint(TiConvert.toString(newValue));
+		} else {
+			super.propertyChanged(key, oldValue, newValue, proxy);
+		}
+	}
+
+	public void setActiveTabIconTint(String color)
+	{
+		BottomNavigationMenuView bottomMenuView = ((BottomNavigationMenuView) this.mBottomNavigationView.getChildAt(0));
+		bottomMenuView.setIconTintList(iconColorStateList(color));
 	}
 
 	@Override

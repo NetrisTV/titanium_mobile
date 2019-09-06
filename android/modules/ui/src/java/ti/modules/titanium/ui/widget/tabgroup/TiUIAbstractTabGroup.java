@@ -135,6 +135,7 @@ public abstract class TiUIAbstractTabGroup extends TiUIView
 	protected boolean tabsDisabled = false;
 	protected int numTabsWhenDisabled;
 	protected int colorPrimaryInt;
+	protected int colorControlNormalInt;
 	protected PagerAdapter tabGroupPagerAdapter;
 	protected ViewPager tabGroupViewPager;
 	protected TiInsetsProvider insetsProvider = new TiInsetsProvider();
@@ -155,13 +156,16 @@ public abstract class TiUIAbstractTabGroup extends TiUIView
 		// Note: We use ActionBar style for backward compatibility with Titanium versions older than 8.0.0.
 		this.colorPrimaryInt = 0xFF212121; // Default to dark gray.
 		this.textColorInt = 0xFFFFFFFF;    // Default to white.
+		this.colorControlNormalInt = 0x8A000000;
 		try {
 			int styleAttributeId = TiRHelper.getResource("attr.actionBarStyle");
-			int[] idArray = new int[] { TiRHelper.getResource("attr.colorPrimary"),
-										TiRHelper.getResource("attr.textColorPrimary") };
+			int[] idArray =
+				new int[] { TiRHelper.getResource("attr.colorPrimary"), TiRHelper.getResource("attr.textColorPrimary"),
+							TiRHelper.getResource("attr.colorControlNormal") };
 			TypedArray typedArray = activity.obtainStyledAttributes(null, idArray, styleAttributeId, 0);
 			this.colorPrimaryInt = typedArray.getColor(0, this.colorPrimaryInt);
 			this.textColorInt = typedArray.getColor(1, this.textColorInt);
+			this.colorControlNormalInt = typedArray.getColor(2, this.colorControlNormalInt);
 			typedArray.recycle();
 		} catch (Exception ex) {
 			Log.e(TAG, "Failed to fetch color from theme.", ex);
@@ -262,6 +266,18 @@ public abstract class TiUIAbstractTabGroup extends TiUIView
 								 ? TiColorHelper.parseColor(
 									   tabProxy.getProperty(TiC.PROPERTY_ACTIVE_TITLE_COLOR).toString())
 								 : this.textColorInt };
+		ColorStateList stateListDrawable = new ColorStateList(textColorStates, textColors);
+		return stateListDrawable;
+	}
+
+	protected ColorStateList iconColorStateList(String color)
+	{
+		if (color == null) {
+			return null;
+		}
+		int stateToUse = android.R.attr.state_checked;
+		int[][] textColorStates = new int[][] { new int[] { stateToUse }, new int[] {} };
+		int[] textColors = { TiColorHelper.parseColor(color), this.colorControlNormalInt };
 		ColorStateList stateListDrawable = new ColorStateList(textColorStates, textColors);
 		return stateListDrawable;
 	}
