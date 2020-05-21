@@ -387,6 +387,35 @@ NSArray *moviePlayerKeys = nil;
       YES);
 }
 
+- (NSNumber *)playbackRate
+{
+  if (movie != nil) {
+    __block float rate = 1.0;
+    TiThreadPerformOnMainThread(^{
+      rate = [[movie player] rate];
+    },
+        YES);
+
+    return NUMFLOAT(rate);
+  } else {
+    return NUMFLOAT(1.0);
+  }
+}
+
+- (void)setPlaybackRate:(NSNumber *)newRate
+{
+  float rate = [TiUtils floatValue:newRate def:1.0];
+
+  if (rate < 0) {
+    return;
+  }
+
+  TiThreadPerformOnMainThread(^{
+    [[movie player] setRate:rate];
+  },
+      YES);
+}
+
 - (void)requestThumbnailImagesAtTimes:(id)args
 {
   ENSURE_ARG_COUNT(args, 3);

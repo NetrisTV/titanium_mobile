@@ -3449,6 +3449,11 @@ public class TiC
 	/**
 	 * @module.api
 	 */
+	public static final String PROPERTY_PLAYBACK_RATE = "playbackRate";
+
+	/**
+	 * @module.api
+	 */
 	public static final String PROPERTY_WAKE_LOCK = "wakeLock";
 
 	/**

@@ -353,6 +353,29 @@ public class TiVideoView8 extends SurfaceView implements MediaPlayerControl
 		}
 	}
 
+	/*
+	 * TITANIUM: Allow setting player playback speed.
+	 */
+	public void setPlaybackRate(float rate)
+	{
+		if (rate < 0) {
+			return;
+		}
+
+		if (mMediaPlayer != null) {
+			try {
+				mMediaPlayer.setPlaybackParams(mMediaPlayer.getPlaybackParams().setSpeed(rate));
+			} catch (IllegalStateException exception) {
+				Log.e(TAG, "A player is not initialized: " + exception.getMessage(), exception);
+			} catch (IllegalArgumentException exception) {
+				Log.e(TAG, "Parameters are not supported (a playback speed is too fast): " + exception.getMessage(),
+					  exception);
+			} catch (Exception exception) {
+				Log.e(TAG, "An unknown error: " + exception.getMessage(), exception);
+			}
+		}
+	}
+
 	public void stopPlayback()
 	{
 		if (mMediaPlayer != null) {
@@ -869,6 +892,15 @@ public class TiVideoView8 extends SurfaceView implements MediaPlayerControl
 				mPlaybackListener.onSeekingBackward();
 			}
 		}
+	}
+
+	public float getPlaybackRate()
+	{
+		if (mMediaPlayer != null) {
+			return mMediaPlayer.getPlaybackParams().getSpeed();
+		}
+
+		return 0;
 	}
 
 	public boolean isPlaying()

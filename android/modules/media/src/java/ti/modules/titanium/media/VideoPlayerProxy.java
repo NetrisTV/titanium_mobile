@@ -65,6 +65,7 @@ public class VideoPlayerProxy extends TiViewProxy implements TiLifecycle.OnLifec
 	private static final int MSG_HIDE_MEDIA_CONTROLLER = MSG_FIRST_ID + 110;
 	private static final int MSG_SET_VIEW_FROM_ACTIVITY = MSG_FIRST_ID + 111;
 	private static final int MSG_REPEAT_CHANGE = MSG_FIRST_ID + 112;
+	private static final int MSG_PLAYBACK_RATE_CHANGE = MSG_FIRST_ID + 113;
 
 	// Keeping these out of TiC because I believe we'll stop supporting them
 	// in favor of the documented property, which is "mediaControlStyle".
@@ -80,6 +81,7 @@ public class VideoPlayerProxy extends TiViewProxy implements TiLifecycle.OnLifec
 	private int loadState = MediaModule.VIDEO_LOAD_STATE_UNKNOWN;
 	private int playbackState = MediaModule.VIDEO_PLAYBACK_STATE_STOPPED;
 	private int repeatMode = MediaModule.VIDEO_REPEAT_MODE_NONE;
+	private float speed = 1.0f;
 
 	// Used only if TiVideoActivity is used (fullscreen == true)
 	private Handler videoActivityHandler;
@@ -355,6 +357,36 @@ public class VideoPlayerProxy extends TiViewProxy implements TiLifecycle.OnLifec
 		}
 	}
 
+	// clang-format off
+	@Kroll.method
+	@Kroll.getProperty
+	public float getPlaybackRate()
+	// clang-format on
+	{
+		if (view != null) {
+			return getVideoView().getPlaybackRate();
+		} else {
+			return 0;
+		}
+	}
+
+	// clang-format off
+	@Kroll.method
+	@Kroll.setProperty
+	public void setPlaybackRate(float rate)
+	// clang-format on
+	{
+		boolean alert = (rate != speed);
+		speed = rate;
+		if (alert && view != null) {
+			if (TiApplication.isUIThread()) {
+				getVideoView().setPlaybackRate(speed);
+			} else {
+				getMainHandler().sendEmptyMessage(MSG_PLAYBACK_RATE_CHANGE);
+			}
+		}
+	}
+
 	@Override
 	public void hide(@Kroll.argument(optional = true) KrollDict options)
 	{
@@ -429,6 +461,12 @@ public class VideoPlayerProxy extends TiViewProxy implements TiLifecycle.OnLifec
 			case MSG_REPEAT_CHANGE:
 				if (vv != null) {
 					vv.setRepeatMode(repeatMode);
+				}
+				handled = true;
+				break;
+			case MSG_PLAYBACK_RATE_CHANGE:
+				if (vv != null) {
+					vv.setPlaybackRate(speed);
 				}
 				handled = true;
 				break;

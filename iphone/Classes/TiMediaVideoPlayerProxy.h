@@ -28,6 +28,7 @@
   KrollCallback *thumbnailCallback;
   NSUInteger callbackRequestCount;
   BOOL seekToZeroBeforePlay;
+  NSNumber *playbackRate;
 
   NSMutableDictionary *loadProperties; // Used to set properties when the player is created
   BOOL sizeSet;
@@ -49,6 +50,7 @@
 @property (nonatomic, readonly) NSNumber *playing;
 @property (nonatomic, copy) NSNumber *volume;
 @property (nonatomic, readwrite, assign) NSNumber *pictureInPictureEnabled;
+@property (nonatomic, readwrite, assign) NSNumber *playbackRate;
 
 - (void)add:(id)proxy;
 - (void)remove:(id)proxy;
