@@ -163,7 +163,19 @@ methods:
         [setDisplayShowTitleEnabled](https://developer.android.com/reference/android/app/ActionBar.html#setDisplayShowTitleEnabled(boolean))
         in the Android API Reference.
     since: "3.3.0"
-        
+
+  - name: setHomeActionContentDescription
+    summary: Set an alternate description for the Home/Up action, when enabled.
+    parameters:
+      - name: description
+        summary: New description for the Home action when enabled
+        type: String
+    description: |
+        See also:
+        [setHomeActionContentDescription](https://developer.android.com/reference/android/support/v7/app/ActionBar#sethomeactioncontentdescription)
+        in the Android API Reference.
+    since: "8.0.0"
+
   - name: show
     summary: Shows the action bar if it is currently hidden.
     description: |

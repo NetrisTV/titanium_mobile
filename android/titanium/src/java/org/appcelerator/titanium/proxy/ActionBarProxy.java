@@ -129,6 +129,16 @@ public class ActionBarProxy extends KrollProxy
 	}
 
 	@Kroll.method
+	public void setHomeActionContentDescription(String value)
+	{
+		if (actionBar == null) {
+			return;
+		}
+
+		actionBar.setHomeActionContentDescription(value);
+	}
+
+	@Kroll.method
 	@Kroll.getProperty
 	public String getSubtitle()
 	{
@@ -155,7 +165,7 @@ public class ActionBarProxy extends KrollProxy
 		if (actionBar == null) {
 			return 0;
 		}
-		return (int) actionBar.getNavigationMode();
+		return actionBar.getNavigationMode();
 	}
 
 	@Kroll.method
