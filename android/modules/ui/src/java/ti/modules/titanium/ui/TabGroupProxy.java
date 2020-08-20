@@ -44,6 +44,7 @@ import android.view.LayoutInflater;
 
 @Kroll.proxy(creatableInModule = UIModule.class,
 	propertyAccessors = {
+		TiC.PROPERTY_ACTIVE_TAB_ICON_TINT,
 		TiC.PROPERTY_TABS_BACKGROUND_COLOR,
 		TiC.PROPERTY_TABS_BACKGROUND_SELECTED_COLOR,
 		TiC.PROPERTY_SWIPEABLE,
