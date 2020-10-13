@@ -319,11 +319,16 @@ public class TiUIBottomNavigationTabGroup extends TiUIAbstractTabGroup implement
 			return;
 		}
 
+		Object badgeValue = tabProxy.getProperty(TiC.PROPERTY_BADGE);
+		if ((badgeValue == null) && !TiUIHelper.isUsingMaterialTheme(this.mBottomNavigationView.getContext())) {
+			return;
+		}
+
 		int menuItemId = this.mBottomNavigationView.getMenu().getItem(index).getItemId();
 		BadgeDrawable badgeDrawable = this.mBottomNavigationView.getOrCreateBadge(menuItemId);
-		if (tabProxy.getProperty(TiC.PROPERTY_BADGE) != null) {
+		if (badgeValue != null) {
 			badgeDrawable.setVisible(true);
-			badgeDrawable.setNumber(TiConvert.toInt(tabProxy.getProperty(TiC.PROPERTY_BADGE), 0));
+			badgeDrawable.setNumber(TiConvert.toInt(badgeValue, 0));
 		} else {
 			badgeDrawable.setVisible(false);
 		}
@@ -341,8 +346,8 @@ public class TiUIBottomNavigationTabGroup extends TiUIAbstractTabGroup implement
 			return;
 		}
 
-		int menuItemId = this.mBottomNavigationView.getMenu().getItem(index).getItemId();
 		if (tabProxy.getProperty(TiC.PROPERTY_BADGE_COLOR) != null) {
+			int menuItemId = this.mBottomNavigationView.getMenu().getItem(index).getItemId();
 			BadgeDrawable badgeDrawable = this.mBottomNavigationView.getOrCreateBadge(menuItemId);
 			badgeDrawable.setBackgroundColor(
 				TiConvert.toColor((String) tabProxy.getProperty(TiC.PROPERTY_BADGE_COLOR)));
