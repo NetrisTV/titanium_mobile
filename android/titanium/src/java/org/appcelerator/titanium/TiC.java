@@ -815,11 +815,6 @@ public class TiC
 	/**
 	 * @module.api
 	 */
-	public static final String PROPERTY_ACTIVE_TAB_ICON_TINT = "activeTabIconTint";
-
-	/**
-	 * @module.api
-	 */
 	public static final String PROPERTY_ACTIVE_TITLE_COLOR = "activeTitleColor";
 
 	/**

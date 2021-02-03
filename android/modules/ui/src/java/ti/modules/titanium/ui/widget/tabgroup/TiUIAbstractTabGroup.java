@@ -308,18 +308,6 @@ public abstract class TiUIAbstractTabGroup extends TiUIView
 		return new ColorStateList(textColorStates, textColors);
 	}
 
-	protected ColorStateList iconColorStateList(String color)
-	{
-		if (color == null) {
-			return null;
-		}
-		int stateToUse = android.R.attr.state_checked;
-		int[][] textColorStates = new int[][] { new int[] { stateToUse }, new int[] {} };
-		int[] textColors = { TiColorHelper.parseColor(color), this.unselectedTextColorInt };
-		ColorStateList stateListDrawable = new ColorStateList(textColorStates, textColors);
-		return stateListDrawable;
-	}
-
 	/**
 	 * Method for creating a RippleDrawable to be used as a bacgkround for an item in the Controller.
 	 * Creates the RippleDrawable for two states - the provided state and its negative value.
