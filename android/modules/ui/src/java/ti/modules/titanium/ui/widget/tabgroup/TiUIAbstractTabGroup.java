@@ -308,18 +308,6 @@ public abstract class TiUIAbstractTabGroup extends TiUIView
 		return new ColorStateList(textColorStates, textColors);
 	}
 
-	protected ColorStateList iconColorStateList(String color)
-	{
-		if (color == null) {
-			return null;
-		}
-		int stateToUse = android.R.attr.state_checked;
-		int[][] textColorStates = new int[][] { new int[] { stateToUse }, new int[] {} };
-		int[] textColors = { TiColorHelper.parseColor(color), this.unselectedTextColorInt };
-		ColorStateList stateListDrawable = new ColorStateList(textColorStates, textColors);
-		return stateListDrawable;
-	}
-
 	/**
 	 * Method for creating a RippleDrawable to be used as a bacgkround for an item in the Controller.
 	 * Creates the RippleDrawable for two states - the provided state and its negative value.
@@ -504,32 +492,27 @@ public abstract class TiUIAbstractTabGroup extends TiUIView
 			return null;
 		}
 
+		// Clone existing drawable so color filter applies correctly.
+		drawable = drawable.getConstantState().newDrawable();
+
 		final KrollDict tabProperties = tabProxy.getProperties();
 		final KrollDict properties = getProxy().getProperties();
 
 		int color = this.textColorInt;
 		if (selected) {
 			if (tabProperties.containsKeyAndNotNull(TiC.PROPERTY_ACTIVE_TINT_COLOR)
-				|| properties.containsKeyAndNotNull(TiC.PROPERTY_ACTIVE_TINT_COLOR)
-				|| tabProperties.containsKeyAndNotNull(TiC.PROPERTY_ACTIVE_TITLE_COLOR)
-				|| properties.containsKeyAndNotNull(TiC.PROPERTY_ACTIVE_TITLE_COLOR)) {
+				|| properties.containsKeyAndNotNull(TiC.PROPERTY_ACTIVE_TINT_COLOR)) {
 				final String colorString = tabProperties.optString(TiC.PROPERTY_ACTIVE_TINT_COLOR,
-					properties.optString(TiC.PROPERTY_ACTIVE_TINT_COLOR,
-						tabProperties.optString(TiC.PROPERTY_ACTIVE_TITLE_COLOR,
-							properties.getString(TiC.PROPERTY_ACTIVE_TITLE_COLOR))));
+					properties.getString(TiC.PROPERTY_ACTIVE_TINT_COLOR));
 				color = TiColorHelper.parseColor(colorString);
 			}
 			drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN);
 		} else {
 			color = this.unselectedTextColorInt;
 			if (tabProperties.containsKeyAndNotNull(TiC.PROPERTY_TINT_COLOR)
-				|| properties.containsKeyAndNotNull(TiC.PROPERTY_TINT_COLOR)
-				|| tabProperties.containsKeyAndNotNull(TiC.PROPERTY_TITLE_COLOR)
-				|| properties.containsKeyAndNotNull(TiC.PROPERTY_TITLE_COLOR)) {
+				|| properties.containsKeyAndNotNull(TiC.PROPERTY_TINT_COLOR)) {
 				final String colorString = tabProperties.optString(TiC.PROPERTY_TINT_COLOR,
-					properties.optString(TiC.PROPERTY_TINT_COLOR,
-						tabProperties.optString(TiC.PROPERTY_TITLE_COLOR,
-							properties.getString(TiC.PROPERTY_TITLE_COLOR))));
+					properties.getString(TiC.PROPERTY_TINT_COLOR));
 				color = TiColorHelper.parseColor(colorString);
 			}
 			drawable.setColorFilter(color, PorterDuff.Mode.SRC_IN);
