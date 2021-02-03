@@ -167,6 +167,8 @@ public class TiUITabLayoutTabGroup extends TiUIAbstractTabGroup implements TabLa
 		updateBadge(tabIndex);
 		// Set the badge.color
 		updateBadgeColor(tabIndex);
+		// Set the badge text color
+		updateBadgeColor(tabIndex);
 	}
 
 	/**
@@ -307,9 +309,27 @@ public class TiUITabLayoutTabGroup extends TiUIAbstractTabGroup implements TabLa
 
 		if (tabProxy.getProperty(TiC.PROPERTY_BADGE_COLOR) != null) {
 			BadgeDrawable badgeDrawable = this.mTabLayout.getTabAt(index).getOrCreateBadge();
-			badgeDrawable.setVisible(true);
 			badgeDrawable.setBackgroundColor(
 				TiConvert.toColor((String) tabProxy.getProperty(TiC.PROPERTY_BADGE_COLOR)));
+		}
+	}
+
+	@Override
+	public void updateBadgeTextColor(int index)
+	{
+		// Validate index input.
+		if (index < 0 || index >= tabs.size()) {
+			return;
+		}
+		TiViewProxy tabProxy = tabs.get(index).getProxy();
+		if (tabProxy == null) {
+			return;
+		}
+
+		if (tabProxy.getProperty(TiC.PROPERTY_BADGE_TEXT_COLOR) != null) {
+			BadgeDrawable badgeDrawable = this.mTabLayout.getTabAt(index).getOrCreateBadge();
+			badgeDrawable.setBadgeTextColor(
+				TiConvert.toColor((String) tabProxy.getProperty(TiC.PROPERTY_BADGE_TEXT_COLOR)));
 		}
 	}
 
