@@ -22,12 +22,13 @@ import android.app.Activity;
 @Kroll.proxy(creatableInModule = UIModule.class,
 	propertyAccessors = {
 		TiC.PROPERTY_ACTIVE_TITLE_COLOR,
+		TiC.PROPERTY_BADGE,
+		TiC.PROPERTY_BADGE_COLOR,
+		TiC.PROPERTY_BADGE_TEXT_COLOR,
 		TiC.PROPERTY_ICON,
 		TiC.PROPERTY_TITLE,
 		TiC.PROPERTY_TITLE_COLOR,
-		TiC.PROPERTY_TITLEID,
-		TiC.PROPERTY_BADGE,
-		TiC.PROPERTY_BADGE_COLOR
+		TiC.PROPERTY_TITLEID
 	})
 public class TabProxy extends TiViewProxy
 {
@@ -260,6 +261,10 @@ public class TabProxy extends TiViewProxy
 		}
 		if (name.equals(TiC.PROPERTY_BADGE_COLOR)) {
 			((TiUIAbstractTabGroup) tabGroupProxy.getOrCreateView()).updateBadgeColor(tabGroupProxy.getTabIndex(this));
+		}
+		if (name.equals(TiC.PROPERTY_BADGE_TEXT_COLOR)) {
+			((TiUIAbstractTabGroup) tabGroupProxy.getOrCreateView())
+				.updateBadgeTextColor(tabGroupProxy.getTabIndex(this));
 		}
 	}
 

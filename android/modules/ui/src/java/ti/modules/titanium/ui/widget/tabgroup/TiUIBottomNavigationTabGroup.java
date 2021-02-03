@@ -222,6 +222,8 @@ public class TiUIBottomNavigationTabGroup extends TiUIAbstractTabGroup implement
 		updateBadge(index);
 		// Set the badge color
 		updateBadgeColor(index);
+		// Set the badge text color
+		updateBadgeTextColor(index);
 		for (int i = 0; i < this.mBottomNavigationView.getMenu().size(); i++) {
 			// Set the title text color.
 			updateTabTitleColor(i);
@@ -351,6 +353,26 @@ public class TiUIBottomNavigationTabGroup extends TiUIAbstractTabGroup implement
 			BadgeDrawable badgeDrawable = this.mBottomNavigationView.getOrCreateBadge(menuItemId);
 			badgeDrawable.setBackgroundColor(
 				TiConvert.toColor((String) tabProxy.getProperty(TiC.PROPERTY_BADGE_COLOR)));
+		}
+	}
+
+	@Override
+	public void updateBadgeTextColor(int index)
+	{
+		if ((index < 0) || (index >= this.tabs.size())) {
+			return;
+		}
+
+		TiViewProxy tabProxy = this.tabs.get(index).getProxy();
+		if (tabProxy == null) {
+			return;
+		}
+
+		if (tabProxy.getProperty(TiC.PROPERTY_BADGE_TEXT_COLOR) != null) {
+			int menuItemId = this.mBottomNavigationView.getMenu().getItem(index).getItemId();
+			BadgeDrawable badgeDrawable = this.mBottomNavigationView.getOrCreateBadge(menuItemId);
+			badgeDrawable.setBadgeTextColor(
+				TiConvert.toColor((String) tabProxy.getProperty(TiC.PROPERTY_BADGE_TEXT_COLOR)));
 		}
 	}
 
