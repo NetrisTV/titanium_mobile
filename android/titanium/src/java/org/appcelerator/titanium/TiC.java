@@ -1065,6 +1065,16 @@ public class TiC
 	/**
 	 * @module.api
 	 */
+	public static final String PROPERTY_BADGE = "badge";
+
+	/**
+	 * @module.api
+	 */
+	public static final String PROPERTY_BADGE_COLOR = "badgeColor";
+
+	/**
+	 * @module.api
+	 */
 	public static final String PROPERTY_TOUCH_FEEDBACK = "touchFeedback";
 
 	/**
