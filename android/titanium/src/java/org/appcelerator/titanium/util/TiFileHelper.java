@@ -39,6 +39,8 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
 import android.webkit.URLUtil;
 
 @SuppressWarnings("deprecation")
@@ -634,7 +636,15 @@ public class TiFileHelper
 			if (privateStorage) {
 				f = context.getDir("appdata", 0);
 			} else {
-				f = context.getExternalFilesDir(null);
+				if (Build.VERSION.SDK_INT >= 29) {
+					f = context.getExternalFilesDir(null);
+				} else {
+					File storageDir = Environment.getExternalStorageDirectory();
+					f = new File(storageDir, context.getPackageName());
+					if (!f.exists()) {
+						f.mkdirs();
+					}
+				}
 			}
 		}
 		return f;
