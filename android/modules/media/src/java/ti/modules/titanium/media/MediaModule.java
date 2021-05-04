@@ -60,6 +60,8 @@ import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.view.Window;
 
+import ti.modules.titanium.media.android.AndroidModule;
+
 @SuppressWarnings("deprecation")
 @Kroll.module
 @ContextSpecific
@@ -633,18 +635,22 @@ public class MediaModule extends KrollModule implements Handler.Callback
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Kroll.method
-	public void saveToPhotoGallery(Object arg, @Kroll.argument(optional = true) HashMap callbackargs)
+	public void saveToPhotoGallery(Object arg, @Kroll.argument(optional = true) HashMap opts)
 	{
 		// Fetch callbacks.
 		KrollFunction successCallback = null;
 		KrollFunction errorCallback = null;
-		if (callbackargs != null) {
-			KrollDict callbackDict = new KrollDict(callbackargs);
-			if (callbackDict.containsKeyAndNotNull(TiC.PROPERTY_SUCCESS)) {
-				successCallback = (KrollFunction) callbackDict.get(TiC.PROPERTY_SUCCESS);
+		KrollDict mediaColumns = null;
+		if (opts != null) {
+			KrollDict optsDict = new KrollDict(opts);
+			if (optsDict.containsKeyAndNotNull(TiC.PROPERTY_SUCCESS)) {
+				successCallback = (KrollFunction) optsDict.get(TiC.PROPERTY_SUCCESS);
 			}
-			if (callbackDict.containsKeyAndNotNull(TiC.EVENT_ERROR)) {
-				errorCallback = (KrollFunction) callbackDict.get(TiC.EVENT_ERROR);
+			if (optsDict.containsKeyAndNotNull(TiC.EVENT_ERROR)) {
+				errorCallback = (KrollFunction) optsDict.get(TiC.EVENT_ERROR);
+			}
+			if (optsDict.containsKeyAndNotNull(TiC.PROPERTY_MEDIA_COLUMNS)) {
+				mediaColumns = new KrollDict((HashMap) opts.get(TiC.PROPERTY_MEDIA_COLUMNS));
 			}
 		}
 
@@ -693,6 +699,37 @@ public class MediaModule extends KrollModule implements Handler.Callback
 			contentValues.put(MediaStore.MediaColumns.DATE_MODIFIED, unixTime / 1000L);
 			if (Build.VERSION.SDK_INT >= 29) {
 				contentValues.put(MediaStore.MediaColumns.DATE_TAKEN, unixTime);
+			}
+			if (mediaColumns != null) {
+				if (mediaColumns.containsKeyAndNotNull(AndroidModule.TITLE)) {
+					contentValues.put(MediaStore.MediaColumns.TITLE, mediaColumns.getString(AndroidModule.TITLE));
+				}
+				if (mediaColumns.containsKeyAndNotNull(AndroidModule.DISPLAY_NAME)) {
+					contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME,
+						mediaColumns.getString(AndroidModule.DISPLAY_NAME));
+				}
+				if (mediaColumns.containsKeyAndNotNull(AndroidModule.DATE_ADDED)) {
+					contentValues.put(MediaStore.MediaColumns.DATE_ADDED,
+						TiConvert.toDate(mediaColumns, AndroidModule.DATE_ADDED).getTime());
+				}
+				if (mediaColumns.containsKeyAndNotNull(AndroidModule.DATE_MODIFIED)) {
+					contentValues.put(MediaStore.MediaColumns.DATE_MODIFIED,
+						TiConvert.toDate(mediaColumns, AndroidModule.DATE_MODIFIED).getTime());
+				}
+				if (Build.VERSION.SDK_INT >= 29) {
+					if (mediaColumns.containsKeyAndNotNull(AndroidModule.RELATIVE_PATH)) {
+						contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH,
+							mediaColumns.getString(AndroidModule.RELATIVE_PATH));
+					}
+					if (mediaColumns.containsKeyAndNotNull(AndroidModule.DATE_TAKEN)) {
+						contentValues.put(MediaStore.MediaColumns.DATE_TAKEN,
+							TiConvert.toDate(mediaColumns, AndroidModule.DATE_TAKEN).getTime());
+					}
+					if (mediaColumns.containsKeyAndNotNull(AndroidModule.OWNER_PACKAGE_NAME)) {
+						contentValues.put(MediaStore.MediaColumns.OWNER_PACKAGE_NAME,
+							mediaColumns.getString(AndroidModule.OWNER_PACKAGE_NAME));
+					}
+				}
 			}
 			ensureExternalPublicMediaDirectoryExists();
 			if (isVideo) {

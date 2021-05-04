@@ -2272,6 +2272,11 @@ public class TiC
 	/**
 	 * @module.api
 	 */
+	public static final String PROPERTY_MEDIA_COLUMNS = "mediaColumns";
+
+	/**
+	 * @module.api
+	 */
 	public static final String PROPERTY_MEDIA_CONTROL_STYLE = "mediaControlStyle";
 
 	/**

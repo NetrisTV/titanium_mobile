@@ -27,6 +27,7 @@ import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.media.MediaScannerConnection.MediaScannerConnectionClient;
 import android.net.Uri;
+import android.provider.MediaStore;
 
 @Kroll.module(parentModule = MediaModule.class)
 public class AndroidModule extends KrollModule
@@ -34,6 +35,27 @@ public class AndroidModule extends KrollModule
 	private static final String TAG = "TiMedia.Android";
 
 	protected static AndroidModule _instance = null;
+
+	@Kroll.constant
+	public static final String DATE_ADDED = MediaStore.MediaColumns.DATE_ADDED;
+
+	@Kroll.constant
+	public static final String DATE_MODIFIED = MediaStore.MediaColumns.DATE_MODIFIED;
+
+	@Kroll.constant
+	public static final String DISPLAY_NAME = MediaStore.MediaColumns.DISPLAY_NAME;
+
+	@Kroll.constant
+	public static final String DATE_TAKEN = "datetaken";
+
+	@Kroll.constant
+	public static final String OWNER_PACKAGE_NAME = "owner_package_name";
+
+	@Kroll.constant
+	public static final String RELATIVE_PATH = "relative_path";
+
+	@Kroll.constant
+	public static final String TITLE = MediaStore.MediaColumns.TITLE;
 
 	public AndroidModule()
 	{
